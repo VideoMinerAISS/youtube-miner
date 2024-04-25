@@ -1,5 +1,5 @@
 
-package aiss.miner.youtube.channel;
+package aiss.miner.youtube.models.channel;
 
 
 import com.fasterxml.jackson.annotation.*;

@@ -1,35 +1,14 @@
+package aiss.miner.youtube.models.caption;
 
-package aiss.miner.youtube.channel;
-
-import aiss.miner.youtube.videoSnippet.VideoSnippet;
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Channel {
+public class Caption {
 
     @JsonProperty("id")
     private String id;
     @JsonProperty("snippet")
-    private ChannelSnippet snippet;
-
-    // This attribute has been added manually
-    @JsonProperty("videos")
-    private List<VideoSnippet> videos;
-
-    public Channel() {
-        videos = new ArrayList<>();
-    }
-
-    @JsonProperty("videos")
-    public List<VideoSnippet> getVideos(){ return videos; }
-
-    @JsonProperty("videos")
-    public void setVideos(List<VideoSnippet> videos) {
-        this.videos = videos;
-    }
+    private CaptionSnippet snippet;
 
     @JsonProperty("id")
     public String getId() {
@@ -42,19 +21,19 @@ public class Channel {
     }
 
     @JsonProperty("snippet")
-    public ChannelSnippet getSnippet() {
+    public CaptionSnippet getSnippet() {
         return snippet;
     }
 
     @JsonProperty("snippet")
-    public void setSnippet(ChannelSnippet snippet) {
+    public void setSnippet(CaptionSnippet snippet) {
         this.snippet = snippet;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Channel.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Caption.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("id");
         sb.append('=');
         sb.append(((this.id == null)?"<null>":this.id));
