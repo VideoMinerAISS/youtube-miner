@@ -1,5 +1,5 @@
 
-package aiss.YouTubeMiner.model.youtube.videoSnippet;
+package aiss.miner.youtube.videoSnippet;
 
 
 import aiss.YouTubeMiner.model.youtube.caption.Caption;

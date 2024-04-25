@@ -1,7 +1,7 @@
 
-package aiss.YouTubeMiner.model.youtube.channel;
+package aiss.miner.youtube.channel;
 
-import aiss.YouTubeMiner.model.youtube.videoSnippet.VideoSnippet;
+import aiss.miner.youtube.videoSnippet.VideoSnippet;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
