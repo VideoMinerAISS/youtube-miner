@@ -12,7 +12,7 @@ public class ChannelController {
     @Autowired
     VideoMinerService videoMinerService;
 
-    @GetMapping{"/{id}"}
+    @GetMapping("/{id}")
     public Channel findOne(@PathVariable String id)
     {//TODO: create logic
         return  null;
