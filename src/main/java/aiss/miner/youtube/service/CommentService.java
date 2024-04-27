@@ -16,13 +16,16 @@ public class CommentService {
     RestTemplate restTemplate;
 
     private final String token = "AIzaSyDeuzP9gYFLoPpNsdfSYAw9OE8z_9_0ndc";
+    private final String token2 = "AIzaSyAJJdRtvi7Jc_8nKFZoLXwHhVF7WhCKnX4";
+
+    private final String token3 = "AIzaSyB8ynH8cDaWHsA37QE2Hmq7QEDiI9KbQCs";
 
     public List<Comment> getVideoComments(String videoId, Integer maxComments) {
         //AÑADIR PAGINADO POR SI MAX COMENTARIOS MAYOR A 100.
 
         String uri = String
-                .format("https://www.googleapis.com/youtube/v3/commentThreads?part=id,snippet&key=%s&videoId=%s&maxResults=%o",
-                        token,videoId,maxComments);
+                .format("https://www.googleapis.com/youtube/v3/commentThreads?part=id,snippet&key=%s&videoId=%s&maxResults=%d",
+                        token2,videoId,Math.min(50,maxComments));
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CommentSearch> request = new HttpEntity<>(null, headers);
@@ -33,6 +36,9 @@ public class CommentService {
             return null; //Quizas se usen para tratar excepciones
         }
         List<Comment> comments = commentResponse.getBody().getItems();
+        CommentSearch commentSearch = commentResponse.getBody();
+        Integer commentRest = maxComments-50;
+
 
         return comments;
 

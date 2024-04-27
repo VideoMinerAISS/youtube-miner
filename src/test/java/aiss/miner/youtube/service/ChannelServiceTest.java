@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ChannelServiceTest {
@@ -42,7 +41,7 @@ class ChannelServiceTest {
     void searchChannelVideos() {
         List<VideoSnippet> videos =videosService.searchChannelVideos("UCF3Ez6QwZwwr_E7RZGJMW0A",
                 10, 10);
-        System.out.println(videos);
+        System.out.println(videos.size());
         System.out.println(videos.get(0).getComments());
         System.out.println(videos.get(0).getCaptions());
 
