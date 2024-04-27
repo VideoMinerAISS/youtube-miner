@@ -27,7 +27,7 @@ public class ChannelService {
         return getChannelById(id, 10, 10);
     }
 
-    public YoutubeChannel getChannelById(String id, Integer maxComments, Integer maxVideos){
+    public YoutubeChannel getChannelById(String id, Integer maxVideos, Integer maxComments){
         String uri = String.format("https://www.googleapis.com/youtube/v3/channels?part=snippet&key=%s&id=%s",
                 token2,id);
         HttpHeaders headers = new HttpHeaders();

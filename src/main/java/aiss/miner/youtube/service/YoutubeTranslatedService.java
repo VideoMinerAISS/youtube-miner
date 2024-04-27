@@ -15,7 +15,7 @@ public class YoutubeTranslatedService {
     {return getYoutubeChannel(channelId,10,10);}
     public Channel getYoutubeChannel(String channelId, Integer maxVideos, Integer maxComments)
     {
-        return  new Channel(channelService.getChannelById(channelId,maxComments,maxVideos));
+        return  new Channel(channelService.getChannelById(channelId,maxVideos,maxComments));
     }
 
 }
