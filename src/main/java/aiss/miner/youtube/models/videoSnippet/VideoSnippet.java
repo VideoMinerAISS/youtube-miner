@@ -2,8 +2,8 @@
 package aiss.miner.youtube.models.videoSnippet;
 
 
-import aiss.YouTubeMiner.model.youtube.caption.Caption;
-import aiss.YouTubeMiner.model.youtube.comment.Comment;
+import aiss.miner.youtube.models.caption.Caption;
+import aiss.miner.youtube.models.comment.Comment;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
