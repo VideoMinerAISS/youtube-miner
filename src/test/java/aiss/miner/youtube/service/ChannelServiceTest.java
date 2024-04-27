@@ -1,17 +1,15 @@
 package aiss.miner.youtube.service;
 
-import aiss.miner.youtube.models.caption.Caption;
-import aiss.miner.youtube.models.channel.Channel;
-import aiss.miner.youtube.models.comment.Comment;
-import aiss.miner.youtube.models.videoSnippet.VideoSnippet;
+import aiss.miner.youtube.models.youtube.caption.Caption;
+import aiss.miner.youtube.models.youtube.channel.Channel;
+import aiss.miner.youtube.models.youtube.comment.Comment;
+import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ChannelServiceTest {

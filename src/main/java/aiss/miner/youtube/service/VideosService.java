@@ -1,10 +1,10 @@
 package aiss.miner.youtube.service;
 
 
-import aiss.miner.youtube.models.caption.Caption;
-import aiss.miner.youtube.models.comment.Comment;
-import aiss.miner.youtube.models.videoSnippet.VideoSnippet;
-import aiss.miner.youtube.models.videoSnippet.VideoSnippetSearch;
+import aiss.miner.youtube.models.youtube.caption.Caption;
+import aiss.miner.youtube.models.youtube.comment.Comment;
+import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippet;
+import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippetSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class VideosService {

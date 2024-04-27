@@ -1,7 +1,7 @@
 package aiss.miner.youtube.service;
 
-import aiss.miner.youtube.models.caption.Caption;
-import aiss.miner.youtube.models.caption.CaptionSearch;
+import aiss.miner.youtube.models.youtube.caption.Caption;
+import aiss.miner.youtube.models.youtube.caption.CaptionSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
