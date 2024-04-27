@@ -41,8 +41,11 @@ class ChannelServiceTest {
     void searchChannelVideos() {
         List<VideoSnippet> videos =videosService.searchChannelVideos("UCF3Ez6QwZwwr_E7RZGJMW0A",
                 10, 10);
+        System.out.println(videos.size());
         System.out.println(videos);
+        System.out.println(videos.get(0).getComments().size());
         System.out.println(videos.get(0).getComments());
+        System.out.println(videos.get(0).getCaptions().size());
         System.out.println(videos.get(0).getCaptions());
 
     }
@@ -50,8 +53,9 @@ class ChannelServiceTest {
     @Test
     @DisplayName("Get video comments")
     void getVideoComments(){
-        List<Comment> comments = commentService.getVideoComments("RWB-LKkedgA", 10);
+        List<Comment> comments = commentService.getVideoComments("RWB-LKkedgA", 150);
         System.out.println(comments);
+        System.out.println(comments.size());
     }
 
     @Test

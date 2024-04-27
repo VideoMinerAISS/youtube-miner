@@ -15,12 +15,13 @@ public class CaptionService {
     @Autowired
     RestTemplate restTemplate;
 
-    private final String token = "AIzaSyDeuzP9gYFLoPpNsdfSYAw9OE8z_9_0ndc";
+    private final String token = "AIzaSyDeuzP9gYFLoPpNsdfSYAw9OE8z_9_0ndc"; //Emilio
 
+    private final String token2 = "AIzaSyAJJdRtvi7Jc_8nKFZoLXwHhVF7WhCKnX4"; //Pepe
     public List<Caption> getVideoCaptions(String videoId){
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/captions?part=id,snippet&key=%s&videoId=%s",
-                        token, videoId);
+                        token2, videoId);
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CaptionSearch> request = new HttpEntity<>(null, headers);

@@ -30,13 +30,11 @@ public class VideosService {
 
     private final String token2 = "AIzaSyAJJdRtvi7Jc_8nKFZoLXwHhVF7WhCKnX4";
 
-    private final String token3 = "AIzaSyB8ynH8cDaWHsA37QE2Hmq7QEDiI9KbQCs";
-
     public List<VideoSnippet> searchChannelVideos(String channelId, Integer maxVideos, Integer maxComments){
         //MODIFICAR CON PAGINADO POR SI NUM VIDEOS MAYOR A 50.
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/search?key=%s&part=snippet&type=video&channelId=%s&maxResults=%d",
-                token3,channelId,Math.min(50,maxVideos));
+                token2,channelId,Math.min(50,maxVideos));
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<VideoSnippet> request = new HttpEntity<>(null,headers);
@@ -50,18 +48,10 @@ public class VideosService {
 
         List<VideoSnippet> videos = videoResponse.getBody().getItems();
         VideoSnippetSearch videoSearch = videoResponse.getBody();
+
         Integer videosRest = maxVideos-50;
-        while (videoSearch.getNextPageToken() != null && !videoSearch.getNextPageToken().isEmpty() && videosRest>0) {
-            Integer nResults = Math.min(50, videosRest);
-            videosRest-=50;
-            String uriNext = String
-                    .format("https://www.googleapis.com/youtube/v3/search?key=%s&part=snippet&type=video&channelId=%s&maxResults=%d&pageToken=%s",
-                            token3,channelId,nResults,videoSearch.getNextPageToken());
-            ResponseEntity<VideoSnippetSearch> videoResponseNext =  restTemplate.exchange(uri, HttpMethod.GET,request,
-                    VideoSnippetSearch.class);
-            videoSearch = videoResponseNext.getBody();
-            videos.addAll(videoSearch.getItems());
-        }
+
+        if(videosRest>0) videos.addAll(nextPages(channelId, videoSearch, videosRest, request));
 
         Function<VideoSnippet,List<Comment>> getComments = video ->
                 commentService.getVideoComments(video.getId().getVideoId(), maxComments);
@@ -72,6 +62,23 @@ public class VideosService {
         videos.forEach(video -> video.setComments(new ArrayList<>(getComments.apply(video))));
         videos.forEach(video -> video.setCaptions(new ArrayList<>(getCaptions.apply(video))));
 
+        return videos;
+    }
+
+    private List<VideoSnippet>  nextPages(String channelId, VideoSnippetSearch videoSearch, Integer videosRest,
+            HttpEntity<VideoSnippet> request){
+        List<VideoSnippet> videos = new ArrayList<>();
+        while (videoSearch.getNextPageToken() != null && !videoSearch.getNextPageToken().isEmpty() && videosRest>0) {
+            Integer nResults = Math.min(50, videosRest);
+            videosRest-=50;
+            String uriNext = String
+                    .format("https://www.googleapis.com/youtube/v3/search?key=%s&part=snippet&type=video&channelId=%s&maxResults=%d&pageToken=%s",
+                            token2,channelId,nResults,videoSearch.getNextPageToken());
+            ResponseEntity<VideoSnippetSearch> videoResponseNext =  restTemplate.exchange(uriNext, HttpMethod.GET,request,
+                    VideoSnippetSearch.class);
+            videoSearch = videoResponseNext.getBody();
+            videos.addAll(videoSearch.getItems());
+        }
         return videos;
     }
 }
