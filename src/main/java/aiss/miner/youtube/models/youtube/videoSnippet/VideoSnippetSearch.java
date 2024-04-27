@@ -1,5 +1,5 @@
 
-package aiss.miner.youtube.models.videoSnippet;
+package aiss.miner.youtube.models.youtube.videoSnippet;
 
 import java.util.List;
 

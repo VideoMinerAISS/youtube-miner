@@ -1,9 +1,9 @@
 package aiss.miner.youtube.service;
 
-import aiss.miner.youtube.models.caption.Caption;
-import aiss.miner.youtube.models.channel.Channel;
-import aiss.miner.youtube.models.comment.Comment;
-import aiss.miner.youtube.models.videoSnippet.VideoSnippet;
+import aiss.miner.youtube.models.youtube.caption.Caption;
+import aiss.miner.youtube.models.youtube.channel.Channel;
+import aiss.miner.youtube.models.youtube.comment.Comment;
+import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ class ChannelServiceTest {
     void searchChannelVideos() {
         List<VideoSnippet> videos =videosService.searchChannelVideos("UCF3Ez6QwZwwr_E7RZGJMW0A",
                 10, 10);
-        System.out.println(videos.size());
+        System.out.println(videos);
         System.out.println(videos.get(0).getComments());
         System.out.println(videos.get(0).getCaptions());
 
