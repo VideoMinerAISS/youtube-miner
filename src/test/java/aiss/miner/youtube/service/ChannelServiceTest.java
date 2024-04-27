@@ -34,6 +34,8 @@ class ChannelServiceTest {
         Channel channel = service.getChannelById("UCF3Ez6QwZwwr_E7RZGJMW0A");
         System.out.println(channel);
         System.out.println(channel.getVideos());
+        System.out.println(channel.getVideos().get(0).getComments());
+        System.out.println(channel.getVideos().get(0).getCaptions());
     }
 
     @Test

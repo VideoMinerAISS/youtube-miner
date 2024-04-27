@@ -19,7 +19,9 @@ public class ChannelService {
     @Autowired
     VideosService videosService;
 
-    private final String token = "AIzaSyDeuzP9gYFLoPpNsdfSYAw9OE8z_9_0ndc";
+    private final String token = "AIzaSyDeuzP9gYFLoPpNsdfSYAw9OE8z_9_0ndc"; //Emilio
+
+    private final String token2 = "AIzaSyAJJdRtvi7Jc_8nKFZoLXwHhVF7WhCKnX4"; //Pepe
 
     public Channel getChannelById(String id){
         return getChannelById(id, 10, 10);
@@ -27,7 +29,7 @@ public class ChannelService {
 
     public Channel getChannelById(String id, Integer maxComments, Integer maxVideos){
         String uri = String.format("https://www.googleapis.com/youtube/v3/channels?part=snippet&key=%s&id=%s",
-                token,id);
+                token2,id);
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<ChannelSearch> request = new HttpEntity<>(null, headers);
@@ -35,7 +37,7 @@ public class ChannelService {
 
         if(channelResponse.getStatusCode().equals(HttpStatus.BAD_REQUEST) ||
                 channelResponse.getBody() == null || channelResponse.getBody().getItems().isEmpty()){
-            return null; // PODRIAR CAUSAR EXCEPCION PERO MEJOR EN EL CONTROLLER O LUEGO AL RETORNAR LO HARE
+            return null; // PODRIAR CAUSAR EXCEPCION PERO MEJOR EN EL CONTROLLER
         }
         Channel channel = channelResponse.getBody().getItems().get(0);
         List<VideoSnippet> videos = videosService.searchChannelVideos(channel.getId(),maxVideos, maxComments);
