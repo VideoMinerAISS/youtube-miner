@@ -37,11 +37,8 @@ public class User {
     public User(){}
 
     public User(YoutubeComment youtubeComment){
-        byte[] bytes = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelId().getValue().getBytes();
-        String encoded = Base64.getEncoder().encodeToString(bytes);
-        byte[] decoded = Base64.getDecoder().decode(encoded);
-        String decodedStr = new String(decoded, StandardCharsets.UTF_8);
-        this.id = Long.valueOf(decodedStr);
+
+        this.id = (long) youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelId().hashCode();
         this.name = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorDisplayName();
         this.picture_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorProfileImageUrl();
         this.user_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelUrl();
