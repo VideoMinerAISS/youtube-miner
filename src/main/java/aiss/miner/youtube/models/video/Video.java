@@ -1,11 +1,14 @@
 package aiss.miner.youtube.models.video;
 
+import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Juan C. Alonso
@@ -41,6 +44,16 @@ public class Video {
     @JoinColumn(name = "videoId")
     @NotNull(message = "Video captions cannot be null")
     private List<Caption> captions;
+
+    public Video(VideoSnippet youtubeVideo){
+        this.id = youtubeVideo.getId().getVideoId();
+        this.name = youtubeVideo.getSnippet().getTitle();
+        this.description = youtubeVideo.getSnippet().getDescription();
+        this.releaseTime = youtubeVideo.getSnippet().getPublishedAt();
+        this.comments = youtubeVideo.getComments().stream().map(Comment::new).collect(Collectors.toList());
+        this.captions = youtubeVideo.getCaptions().stream().map(Caption::new).collect(Collectors.toList());
+    }
+
 
     public String getId() {
         return id;

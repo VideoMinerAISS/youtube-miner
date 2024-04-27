@@ -1,14 +1,13 @@
 package aiss.miner.youtube.models.video;
+import aiss.miner.youtube.models.youtube.caption.YoutubeCaption;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
-import javax.annotation.processing.Generated;
 
 /**
  * @author Juan C. Alonso
  */
 @Entity
-@Table(name = "Caption")
+@Table(name = "YoutubeCaption")
 public class Caption {
 
     @Id
@@ -50,6 +49,12 @@ public class Caption {
 
     public Caption() {}
 
+    public Caption(YoutubeCaption youtubeCaption){
+        this.id = youtubeCaption.getId();
+        this.name = youtubeCaption.getSnippet().getName();
+        this.language = youtubeCaption.getSnippet().getLanguage();
+    }
+
     public Caption(String id, String name, String language) {
         this.id = id;
         this.name = name;
@@ -58,7 +63,7 @@ public class Caption {
 
     @Override
     public String toString() {
-        return "Caption{" +
+        return "YoutubeCaption{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", language='" + language + '\'' +

@@ -1,6 +1,6 @@
 package aiss.miner.youtube.service;
 
-import aiss.miner.youtube.models.youtube.comment.Comment;
+import aiss.miner.youtube.models.youtube.comment.YoutubeComment;
 import aiss.miner.youtube.models.youtube.comment.CommentSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -20,7 +20,7 @@ public class CommentService {
 
     private final String token2 = "AIzaSyAJJdRtvi7Jc_8nKFZoLXwHhVF7WhCKnX4"; //Pepe
 
-    public List<Comment> getVideoComments(String videoId, Integer maxComments) {
+    public List<YoutubeComment> getVideoComments(String videoId, Integer maxComments) {
         //AÑADIR PAGINADO POR SI MAX COMENTARIOS MAYOR A 100.
 
         String uri = String
@@ -35,7 +35,7 @@ public class CommentService {
                 commentResponse.getBody() == null || commentResponse.getBody().getItems().isEmpty()){
             return null; //Quizas se usen para tratar excepciones
         }
-        List<Comment> comments = commentResponse.getBody().getItems();
+        List<YoutubeComment> comments = commentResponse.getBody().getItems();
         CommentSearch commentSearch = commentResponse.getBody();
         Integer commentRest = maxComments-100;
         if(commentRest>0) comments.addAll(getNextPages(videoId,commentSearch,commentRest,request));
@@ -44,8 +44,8 @@ public class CommentService {
 
     }
 
-    private List<Comment> getNextPages(String videoId, CommentSearch commentSearch, Integer commentRest,  HttpEntity<CommentSearch> request){
-        List<Comment> comments = new ArrayList<>();
+    private List<YoutubeComment> getNextPages(String videoId, CommentSearch commentSearch, Integer commentRest, HttpEntity<CommentSearch> request){
+        List<YoutubeComment> comments = new ArrayList<>();
         while(commentSearch.getNextPageToken() != null && !commentSearch.getNextPageToken().isEmpty() && commentRest>0){
             Integer nResults = Math.min(100, commentRest);
             commentRest-=100;

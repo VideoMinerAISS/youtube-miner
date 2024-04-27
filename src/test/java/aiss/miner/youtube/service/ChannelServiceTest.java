@@ -1,8 +1,8 @@
 package aiss.miner.youtube.service;
 
-import aiss.miner.youtube.models.youtube.caption.Caption;
-import aiss.miner.youtube.models.youtube.channel.Channel;
-import aiss.miner.youtube.models.youtube.comment.Comment;
+import aiss.miner.youtube.models.youtube.caption.YoutubeCaption;
+import aiss.miner.youtube.models.youtube.channel.YoutubeChannel;
+import aiss.miner.youtube.models.youtube.comment.YoutubeComment;
 import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ class ChannelServiceTest {
     @Test
     @DisplayName("Get channel by Id")
     void getChannelById() {
-        Channel channel = service.getChannelById("UCF3Ez6QwZwwr_E7RZGJMW0A");
+        YoutubeChannel channel = service.getChannelById("UCF3Ez6QwZwwr_E7RZGJMW0A");
         System.out.println(channel);
         System.out.println(channel.getVideos());
         System.out.println(channel.getVideos().get(0).getComments());
@@ -55,7 +55,7 @@ class ChannelServiceTest {
     @Test
     @DisplayName("Get video comments")
     void getVideoComments(){
-        List<Comment> comments = commentService.getVideoComments("RWB-LKkedgA", 150);
+        List<YoutubeComment> comments = commentService.getVideoComments("RWB-LKkedgA", 150);
         System.out.println(comments);
         System.out.println(comments.size());
     }
@@ -63,7 +63,7 @@ class ChannelServiceTest {
     @Test
     @DisplayName("Get a video captions")
     void getVideoCaptions(){
-        List<Caption> captions = captionService.getVideoCaptions("RWB-LKkedgA");
+        List<YoutubeCaption> captions = captionService.getVideoCaptions("RWB-LKkedgA");
         System.out.println(captions);
     }
 

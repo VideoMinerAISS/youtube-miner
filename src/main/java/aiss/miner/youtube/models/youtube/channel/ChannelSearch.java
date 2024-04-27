@@ -9,15 +9,15 @@ import com.fasterxml.jackson.annotation.*;
 public class ChannelSearch {
 
     @JsonProperty("items")
-    private List<Channel> items;
+    private List<YoutubeChannel> items;
 
     @JsonProperty("items")
-    public List<Channel> getItems() {
+    public List<YoutubeChannel> getItems() {
         return items;
     }
 
     @JsonProperty("items")
-    public void setItems(List<Channel> items) {
+    public void setItems(List<YoutubeChannel> items) {
         this.items = items;
     }
 

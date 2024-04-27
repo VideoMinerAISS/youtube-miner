@@ -11,7 +11,7 @@ public class CommentSearch {
     @JsonProperty("nextPageToken")
     private String nextPageToken;
     @JsonProperty("items")
-    private List<Comment> items;
+    private List<YoutubeComment> items;
 
     @JsonProperty("nextPageToken")
     public String getNextPageToken() {
@@ -24,12 +24,12 @@ public class CommentSearch {
     }
 
     @JsonProperty("items")
-    public List<Comment> getItems() {
+    public List<YoutubeComment> getItems() {
         return items;
     }
 
     @JsonProperty("items")
-    public void setItems(List<Comment> items) {
+    public void setItems(List<YoutubeComment> items) {
         this.items = items;
     }
 

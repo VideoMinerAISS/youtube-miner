@@ -4,7 +4,7 @@ package aiss.miner.youtube.models.youtube.comment;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Comment {
+public class YoutubeComment {
 
     @JsonProperty("snippet")
     private CommentSnippet snippet;
@@ -23,7 +23,7 @@ public class Comment {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Comment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(YoutubeComment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("snippet");
         sb.append('=');
         sb.append(((this.snippet == null)?"<null>":this.snippet));

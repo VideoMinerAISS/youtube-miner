@@ -1,8 +1,8 @@
 package aiss.miner.youtube.service;
 
 
-import aiss.miner.youtube.models.youtube.caption.Caption;
-import aiss.miner.youtube.models.youtube.comment.Comment;
+import aiss.miner.youtube.models.youtube.caption.YoutubeCaption;
+import aiss.miner.youtube.models.youtube.comment.YoutubeComment;
 import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippet;
 import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippetSearch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +53,10 @@ public class VideosService {
 
         if(videosRest>0) videos.addAll(nextPages(channelId, videoSearch, videosRest, request));
 
-        Function<VideoSnippet,List<Comment>> getComments = video ->
+        Function<VideoSnippet,List<YoutubeComment>> getComments = video ->
                 commentService.getVideoComments(video.getId().getVideoId(), maxComments);
 
-        Function<VideoSnippet,List<Caption>> getCaptions = video ->
+        Function<VideoSnippet,List<YoutubeCaption>> getCaptions = video ->
                 captionService.getVideoCaptions(video.getId().getVideoId());
 
         videos.forEach(video -> video.setComments(new ArrayList<>(getComments.apply(video))));

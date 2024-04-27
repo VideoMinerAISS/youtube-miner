@@ -1,7 +1,11 @@
 package aiss.miner.youtube.models.video;
 
+import aiss.miner.youtube.models.youtube.comment.YoutubeComment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * @author Juan C. Alonso
@@ -11,9 +15,9 @@ import jakarta.persistence.*;
 public class User {
 
     /*
-    * In order to avoid making the model unnecessarily complex, we establish a one-to-one relationship between Comment and
-    * User (instead of many-to-one). This causes an exception if we try to add a Comment to the DataBase that has been
-    * created by a User that already has a Comment in a previously stored Video. To avoid this exception, we automatically
+    * In order to avoid making the model unnecessarily complex, we establish a one-to-one relationship between YoutubeComment and
+    * User (instead of many-to-one). This causes an exception if we try to add a YoutubeComment to the DataBase that has been
+    * created by a User that already has a YoutubeComment in a previously stored Video. To avoid this exception, we automatically
     * assign an id to each new User with AutoIncrement.
      */
     @Id
@@ -29,6 +33,19 @@ public class User {
 
     @JsonProperty("picture_link")
     private String picture_link;
+
+    public User(){}
+
+    public User(YoutubeComment youtubeComment){
+        byte[] bytes = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelId().getValue().getBytes();
+        String encoded = Base64.getEncoder().encodeToString(bytes);
+        byte[] decoded = Base64.getDecoder().decode(encoded);
+        String decodedStr = new String(decoded, StandardCharsets.UTF_8);
+        this.id = Long.valueOf(decodedStr);
+        this.name = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorDisplayName();
+        this.picture_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorProfileImageUrl();
+        this.user_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelUrl();
+    }
 
     public Long getId() {
         return id;

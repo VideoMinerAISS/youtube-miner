@@ -1,6 +1,6 @@
 package aiss.miner.youtube.service;
 
-import aiss.miner.youtube.models.youtube.caption.Caption;
+import aiss.miner.youtube.models.youtube.caption.YoutubeCaption;
 import aiss.miner.youtube.models.youtube.caption.CaptionSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -18,7 +18,7 @@ public class CaptionService {
     private final String token = "AIzaSyDeuzP9gYFLoPpNsdfSYAw9OE8z_9_0ndc"; //Emilio
 
     private final String token2 = "AIzaSyAJJdRtvi7Jc_8nKFZoLXwHhVF7WhCKnX4"; //Pepe
-    public List<Caption> getVideoCaptions(String videoId){
+    public List<YoutubeCaption> getVideoCaptions(String videoId){
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/captions?part=id,snippet&key=%s&videoId=%s",
                         token2, videoId);
@@ -32,7 +32,7 @@ public class CaptionService {
                 captionResponse.getBody() == null || captionResponse.getBody().getItems().isEmpty()){
             return null;
         }
-        List<Caption> captions = captionResponse.getBody().getItems();
+        List<YoutubeCaption> captions = captionResponse.getBody().getItems();
         return captions;
     }
 

@@ -8,15 +8,15 @@ import java.util.List;
 public class CaptionSearch {
 
     @JsonProperty("items")
-    private List<Caption> items;
+    private List<YoutubeCaption> items;
 
     @JsonProperty("items")
-    public List<Caption> getItems() {
+    public List<YoutubeCaption> getItems() {
         return items;
     }
 
     @JsonProperty("items")
-    public void setItems(List<Caption> items) {
+    public void setItems(List<YoutubeCaption> items) {
         this.items = items;
     }
 

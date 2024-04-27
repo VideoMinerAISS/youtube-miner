@@ -1,5 +1,6 @@
 package aiss.miner.youtube.models.video;
 
+import aiss.miner.youtube.models.youtube.channel.YoutubeChannel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,12 +8,13 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Juan C. Alonso
  */
 @Entity
-@Table(name = "Channel")
+@Table(name = "YoutubeChannel")
 public class Channel {
 
     @Id
@@ -20,7 +22,7 @@ public class Channel {
     private String id;
 
     @JsonProperty("name")
-    @NotEmpty(message = "Channel name cannot be empty")
+    @NotEmpty(message = "YoutubeChannel name cannot be empty")
     private String name;
 
     @JsonProperty("description")
@@ -28,18 +30,26 @@ public class Channel {
     private String description;
 
     @JsonProperty("createdTime")
-    @NotEmpty(message = "Channel creation time cannot be empty")
+    @NotEmpty(message = "YoutubeChannel creation time cannot be empty")
     private String createdTime;
 
     @JsonProperty("videos")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "channelId")
-    @NotNull(message = "Channel videos cannot be null")
+    @NotNull(message = "YoutubeChannel videos cannot be null")
     private List<Video> videos;
 
     public Channel() {
         this.videos = new ArrayList<>();
     }
+
+    public Channel(YoutubeChannel youtubeChannel){
+        this.id = youtubeChannel.getId();
+        this.name = youtubeChannel.getSnippet().getTitle();
+        this.description = youtubeChannel.getSnippet().getDescription();
+        this.createdTime = youtubeChannel.getSnippet().getPublishedAt();
+        this.videos = youtubeChannel.getVideos().stream().map(Video::new).collect(Collectors.toList());
+    };
 
     public String getId() {
         return id;
@@ -83,7 +93,7 @@ public class Channel {
 
     @Override
     public String toString() {
-        return "Channel{" +
+        return "YoutubeChannel{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
