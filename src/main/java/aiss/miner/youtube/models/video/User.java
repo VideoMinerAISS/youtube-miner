@@ -37,7 +37,7 @@ public class User {
     public User(){}
 
     public User(YoutubeComment youtubeComment){
-
+        //TODO: Decodificar el id del canal
         this.id = (long) youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelId().hashCode();
         this.name = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorDisplayName();
         this.picture_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorProfileImageUrl();
