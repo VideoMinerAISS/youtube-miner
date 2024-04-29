@@ -54,6 +54,10 @@ public class Video {
         this.captions = youtubeVideo.getCaptions().stream().map(Caption::new).collect(Collectors.toList());
     }
 
+    public Video(){
+
+    }
+
 
     public String getId() {
         return id;

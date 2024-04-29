@@ -14,11 +14,11 @@ public class VideoMinerService {
     @Autowired
     RestTemplate restTemplate;
 
-    String baseURI = "local";
+    String baseURI = "http://localhost:8080";
     public void createChannel(Channel channel)
     {
         HttpEntity<Channel> request = new HttpEntity<>(channel, null);
-        String uri = baseURI + "/channels";
+        String uri = baseURI + "/videominer/channels";
 
         ResponseEntity<Channel> response = restTemplate.exchange(uri, HttpMethod.POST, request, Channel.class);
 

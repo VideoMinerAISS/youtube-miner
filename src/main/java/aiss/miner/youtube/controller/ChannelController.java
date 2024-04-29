@@ -23,9 +23,11 @@ public class ChannelController {
 
     @PostMapping("/{id}")
     public Channel postOne(@PathVariable String id)
-    {//TODO: create logic
+    {
+
         Channel channel = youtubeTranslatedService.getYoutubeChannel(id);
         videoMinerService.createChannel(channel);
-        return  channel;
+
+        return channel;
     }
 }
