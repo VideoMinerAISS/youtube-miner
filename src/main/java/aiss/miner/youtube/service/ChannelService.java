@@ -29,7 +29,7 @@ public class ChannelService {
 
     public YoutubeChannel getChannelById(String id, Integer maxVideos, Integer maxComments){
         String uri = String.format("https://www.googleapis.com/youtube/v3/channels?part=snippet&key=%s&id=%s",
-                token2,id);
+                token,id);
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<ChannelSearch> request = new HttpEntity<>(null, headers);

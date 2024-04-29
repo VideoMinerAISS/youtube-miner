@@ -34,7 +34,7 @@ public class VideosService {
         //MODIFICAR CON PAGINADO POR SI NUM VIDEOS MAYOR A 50.
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/search?key=%s&part=snippet&type=video&channelId=%s&maxResults=%d",
-                token2,channelId,Math.min(50,maxVideos));
+                        token,channelId,Math.min(50,maxVideos));
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<VideoSnippet> request = new HttpEntity<>(null,headers);
@@ -73,7 +73,7 @@ public class VideosService {
             videosRest-=50;
             String uriNext = String
                     .format("https://www.googleapis.com/youtube/v3/search?key=%s&part=snippet&type=video&channelId=%s&maxResults=%d&pageToken=%s",
-                            token2,channelId,nResults,videoSearch.getNextPageToken());
+                            token,channelId,nResults,videoSearch.getNextPageToken());
             ResponseEntity<VideoSnippetSearch> videoResponseNext =  restTemplate.exchange(uriNext, HttpMethod.GET,request,
                     VideoSnippetSearch.class);
             videoSearch = videoResponseNext.getBody();

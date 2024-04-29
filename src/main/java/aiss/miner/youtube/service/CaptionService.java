@@ -21,7 +21,7 @@ public class CaptionService {
     public List<YoutubeCaption> getVideoCaptions(String videoId){
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/captions?part=id,snippet&key=%s&videoId=%s",
-                        token2, videoId);
+                        token, videoId);
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CaptionSearch> request = new HttpEntity<>(null, headers);

@@ -25,7 +25,7 @@ public class CommentService {
 
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/commentThreads?part=id,snippet&key=%s&videoId=%s&maxResults=%d",
-                        token2,videoId,Math.min(100,maxComments));
+                        token,videoId,Math.min(100,maxComments));
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CommentSearch> request = new HttpEntity<>(null, headers);
@@ -51,7 +51,7 @@ public class CommentService {
             commentRest-=100;
             String uriNext = String
                     .format("https://www.googleapis.com/youtube/v3/commentThreads?part=id,snippet&key=%s&videoId=%s&maxResults=%d&pageToken=%s",
-                            token2,videoId,Math.min(50,nResults), commentSearch.getNextPageToken());
+                            token,videoId,Math.min(50,nResults), commentSearch.getNextPageToken());
             ResponseEntity<CommentSearch> commentResponse = restTemplate
                     .exchange(uriNext, HttpMethod.GET, request, CommentSearch.class);
             commentSearch = commentResponse.getBody();
@@ -59,6 +59,8 @@ public class CommentService {
         }
         return comments;
     }
+
+
 
 
 }

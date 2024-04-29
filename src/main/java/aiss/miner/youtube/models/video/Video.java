@@ -55,7 +55,8 @@ public class Video {
     }
 
     public Video(){
-
+        this.captions = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
 
