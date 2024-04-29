@@ -38,13 +38,13 @@ public class CommentService {
         List<YoutubeComment> comments = commentResponse.getBody().getItems();
         CommentSearch commentSearch = commentResponse.getBody();
         Integer commentRest = maxComments-100;
-        if(commentRest>0) comments.addAll(getNextPages(videoId,commentSearch,commentRest,request));
+        if(commentRest>0) comments.addAll(getNextPagesComm(videoId,commentSearch,commentRest,request));
 
         return comments;
 
     }
 
-    private List<YoutubeComment> getNextPages(String videoId, CommentSearch commentSearch, Integer commentRest, HttpEntity<CommentSearch> request){
+    private List<YoutubeComment> getNextPagesComm(String videoId, CommentSearch commentSearch, Integer commentRest, HttpEntity<CommentSearch> request){
         List<YoutubeComment> comments = new ArrayList<>();
         while(commentSearch.getNextPageToken() != null && !commentSearch.getNextPageToken().isEmpty() && commentRest>0){
             Integer nResults = Math.min(100, commentRest);
