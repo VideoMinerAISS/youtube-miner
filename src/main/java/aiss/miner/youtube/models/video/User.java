@@ -37,10 +37,8 @@ public class User {
     public User(){}
 
     public User(YoutubeComment youtubeComment){
-
-
         //TODO: Decodificar el id del canal
-        this.id = 3L;
+        this.id = (long) youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelId().hashCode();
         this.name = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorDisplayName();
         this.picture_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorProfileImageUrl();
         this.user_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelUrl();
@@ -86,14 +84,6 @@ public class User {
                 ", user_link='" + user_link + '\'' +
                 ", picture_link='" + picture_link + '\'' +
                 '}';
-    }
-
-    private static long bytesToLong(byte[] bytes) {
-        long result = 0;
-        for (int i = 0; i < bytes.length; i++) {
-            result = result << 8 | (bytes[i] & 0xFF);
-        }
-        return result;
     }
 
 }

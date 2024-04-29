@@ -51,7 +51,7 @@ public class VideosService {
 
         Integer videosRest = maxVideos-50;
 
-        if(videosRest>0) videos.addAll(nextPages(channelId, videoSearch, videosRest, request));
+        if(videosRest>0) videos.addAll(nextPagesV(channelId, videoSearch, videosRest, request));
 
         Function<VideoSnippet,List<YoutubeComment>> getComments = video ->
                 commentService.getVideoComments(video.getId().getVideoId(), maxComments);
@@ -65,7 +65,7 @@ public class VideosService {
         return videos;
     }
 
-    private List<VideoSnippet>  nextPages(String channelId, VideoSnippetSearch videoSearch, Integer videosRest,
+    private List<VideoSnippet>  nextPagesV(String channelId, VideoSnippetSearch videoSearch, Integer videosRest,
             HttpEntity<VideoSnippet> request){
         List<VideoSnippet> videos = new ArrayList<>();
         while (videoSearch.getNextPageToken() != null && !videoSearch.getNextPageToken().isEmpty() && videosRest>0) {
