@@ -17,16 +17,20 @@ public class ChannelController {
     YoutubeTranslatedService youtubeTranslatedService;
 
     @GetMapping("/{id}")
-    public Channel findOne(@PathVariable String id)
+    public Channel findOne(@PathVariable String id,
+                           @RequestParam(value="maxVideos", defaultValue ="10") String maxVideos,
+                           @RequestParam(value="maxComments", defaultValue ="10") String maxComments)
     {
-        return youtubeTranslatedService.getYoutubeChannel(id);
+        return youtubeTranslatedService.getYoutubeChannel(id, Integer.parseInt(maxVideos), Integer.parseInt(maxComments));
     }
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Channel postOne(@PathVariable String id)
+    public Channel postOne(@PathVariable String id,
+                           @RequestParam(value="maxVideos", defaultValue ="10") String maxVideos,
+                           @RequestParam(value="maxComments", defaultValue ="10") String maxComments)
     {
-        Channel channel = youtubeTranslatedService.getYoutubeChannel(id);
+        Channel channel = youtubeTranslatedService.getYoutubeChannel(id, Integer.parseInt(maxVideos), Integer.parseInt(maxComments));
         videoMinerService.createChannel(channel);
         return channel;
     }
