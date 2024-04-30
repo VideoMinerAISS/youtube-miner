@@ -26,11 +26,8 @@ public class ChannelController {
     @ResponseStatus(HttpStatus.CREATED)
     public Channel postOne(@PathVariable String id)
     {
-System.out.println("AAAAAAA");
         Channel channel = youtubeTranslatedService.getYoutubeChannel(id);
-        System.out.println("AAAAAAA");
         videoMinerService.createChannel(channel);
-        System.out.println("AAAAAAA");
         return channel;
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Service
-public class ChannelService {
+public class YoutubeService {
     @Autowired
     RestTemplate restTemplate;
 

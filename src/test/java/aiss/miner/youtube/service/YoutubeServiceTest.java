@@ -13,11 +13,11 @@ import java.util.List;
 
 
 @SpringBootTest
-class ChannelServiceTest {
+class YoutubeServiceTest {
 
 
     @Autowired
-    ChannelService service;
+    YoutubeService service;
 
     @Autowired
     VideosService videosService;
