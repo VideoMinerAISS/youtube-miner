@@ -50,4 +50,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> wrongParameterFormat(NumberFormatException ex){
+        String error = "Parametros de busqueda inválidos";
+        Map<String, String> res = new HashMap<>();
+        res.put("errors", error);
+        return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+    }
+
 }
