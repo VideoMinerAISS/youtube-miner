@@ -1,5 +1,6 @@
 package aiss.miner.youtube.service;
 
+import aiss.miner.youtube.exception.ResourceNotFound;
 import aiss.miner.youtube.models.youtube.caption.CaptionSearch;
 import aiss.miner.youtube.models.youtube.caption.YoutubeCaption;
 import aiss.miner.youtube.models.youtube.channel.YoutubeChannel;
@@ -11,6 +12,7 @@ import aiss.miner.youtube.models.youtube.videoSnippet.VideoSnippetSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -38,9 +40,8 @@ public class YoutubeService {
         HttpEntity<ChannelSearch> request = new HttpEntity<>(null, headers);
         ResponseEntity<ChannelSearch> channelResponse = restTemplate.exchange(uri, HttpMethod.GET,request,ChannelSearch.class);
 
-        if(channelResponse.getStatusCode().equals(HttpStatus.BAD_REQUEST) ||
-                channelResponse.getBody() == null || channelResponse.getBody().getItems().isEmpty()){
-            return null; // PODRIAR CAUSAR EXCEPCION PERO MEJOR EN EL CONTROLLER
+        if(channelResponse.getBody().getItems() == null || channelResponse.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) {
+            throw new ResourceNotFound("Channel");  //Pongo or por si acaso pero haciendo pruebas, aunque no exista la id no me devuelve 404
         }
         YoutubeChannel channel = channelResponse.getBody().getItems().get(0);
         List<VideoSnippet> videos = searchChannelVideos(channel.getId(),maxVideos, maxComments);
@@ -52,17 +53,14 @@ public class YoutubeService {
     public List<VideoSnippet> searchChannelVideos(String channelId, Integer maxVideos, Integer maxComments){
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/search?key=%s&part=snippet&type=video&channelId=%s&maxResults=%d",
-                        token2,channelId,Math.min(50,maxVideos));
+                        token,channelId,Math.min(50,maxVideos));
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<VideoSnippet> request = new HttpEntity<>(null,headers);
         ResponseEntity<VideoSnippetSearch> videoResponse =  restTemplate.exchange(uri, HttpMethod.GET,request,
                 VideoSnippetSearch.class);
 
-        if(videoResponse.getStatusCode().equals(HttpStatus.BAD_REQUEST) ||
-                videoResponse.getBody() == null || videoResponse.getBody().getItems().isEmpty()){
-            return null;
-        }
+        if(videoResponse.getBody().getItems().isEmpty()){return new ArrayList<>();}
 
         List<VideoSnippet> videos = videoResponse.getBody().getItems();
         VideoSnippetSearch videoSearch = videoResponse.getBody();
@@ -76,10 +74,10 @@ public class YoutubeService {
 
         Function<VideoSnippet,List<YoutubeCaption>> getCaptions = video ->
                 getVideoCaptions(video.getId().getVideoId());
-
-        videos.forEach(video -> video.setComments(new ArrayList<>(getComments.apply(video))));
-        videos.forEach(video -> video.setCaptions(new ArrayList<>(getCaptions.apply(video))));
-
+        if(!videos.isEmpty()) {
+            videos.forEach(video -> video.setComments(new ArrayList<>(getComments.apply(video))));
+            videos.forEach(video -> video.setCaptions(new ArrayList<>(getCaptions.apply(video))));
+        }
         return videos;
     }
 
@@ -101,24 +99,27 @@ public class YoutubeService {
     }
 
     public List<YoutubeComment> getVideoComments(String videoId, Integer maxComments) {
-
+        List<YoutubeComment> comments = new ArrayList<>();
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/commentThreads?part=id,snippet&key=%s&videoId=%s&maxResults=%d",
-                        token2,videoId,Math.min(100,maxComments));
+                        token,videoId,Math.min(100,maxComments));
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CommentSearch> request = new HttpEntity<>(null, headers);
-        ResponseEntity<CommentSearch> commentResponse = restTemplate
-                .exchange(uri, HttpMethod.GET, request, CommentSearch.class);
-        if(commentResponse.getStatusCode().equals(HttpStatus.BAD_REQUEST) ||
-                commentResponse.getBody() == null || commentResponse.getBody().getItems().isEmpty()){
-            return null; //Quizas se usen para tratar excepciones
-        }
-        List<YoutubeComment> comments = commentResponse.getBody().getItems();
-        CommentSearch commentSearch = commentResponse.getBody();
-        Integer commentRest = maxComments-100;
-        if(commentRest>0) comments.addAll(getNextPagesComm(videoId,commentSearch,commentRest,request));
+        try {
+            ResponseEntity<CommentSearch> commentResponse = restTemplate
+                    .exchange(uri, HttpMethod.GET, request, CommentSearch.class);
+            //Si no tiene comentarios, devuelve lista vacía
+            if(commentResponse.getBody().getItems()!=null){
+                comments = commentResponse.getBody().getItems();
+                CommentSearch commentSearch = commentResponse.getBody();
+                Integer commentRest = maxComments - 100;
+                if (commentRest > 0) comments.addAll(getNextPagesComm(videoId, commentSearch, commentRest, request));
+            }
+        } catch (HttpClientErrorException.Forbidden | HttpClientErrorException.NotFound e){
+            if(e.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) throw new ResourceNotFound("Video");
 
+        }
         return comments;
 
     }
@@ -141,20 +142,23 @@ public class YoutubeService {
     }
 
     public List<YoutubeCaption> getVideoCaptions(String videoId){
+        List<YoutubeCaption> captions = new ArrayList<>();
         String uri = String
                 .format("https://www.googleapis.com/youtube/v3/captions?part=id,snippet&key=%s&videoId=%s",
-                        token2, videoId);
+                        token, videoId);
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CaptionSearch> request = new HttpEntity<>(null, headers);
 
-        ResponseEntity<CaptionSearch> captionResponse = restTemplate.exchange(uri, HttpMethod.GET, request, CaptionSearch.class);
+        try {
+            ResponseEntity<CaptionSearch> captionResponse = restTemplate.exchange(uri, HttpMethod.GET, request, CaptionSearch.class);
+            if(captionResponse.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND) || captionResponse.getBody().getItems()!=null)
+                captions = captionResponse.getBody().getItems();
 
-        if(captionResponse.getStatusCode().equals(HttpStatus.BAD_REQUEST) ||
-                captionResponse.getBody() == null || captionResponse.getBody().getItems().isEmpty()){
-            return null;
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new ResourceNotFound("Video");
         }
-        List<YoutubeCaption> captions = captionResponse.getBody().getItems();
+
         return captions;
     }
 

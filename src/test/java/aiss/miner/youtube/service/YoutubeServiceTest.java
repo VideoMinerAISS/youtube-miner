@@ -1,5 +1,6 @@
 package aiss.miner.youtube.service;
 
+import aiss.miner.youtube.exception.ResourceNotFound;
 import aiss.miner.youtube.models.youtube.caption.YoutubeCaption;
 import aiss.miner.youtube.models.youtube.channel.YoutubeChannel;
 import aiss.miner.youtube.models.youtube.comment.YoutubeComment;
@@ -19,19 +20,10 @@ class YoutubeServiceTest {
     @Autowired
     YoutubeService service;
 
-    @Autowired
-    VideosService videosService;
-
-    @Autowired
-    CommentService commentService;
-
-    @Autowired
-    CaptionService captionService;
-
     @Test
     @DisplayName("Get channel by Id")
     void getChannelById() {
-        YoutubeChannel channel = service.getChannelById("UCF3Ez6QwZwwr_E7RZGJMW0A");
+        YoutubeChannel channel = service.getChannelById("UCF3Ez6QwZwwr_E7RZGJMW0A",10,10);
         System.out.println(channel);
         System.out.println(channel.getVideos());
         System.out.println(channel.getVideos().get(0).getComments());
@@ -41,13 +33,10 @@ class YoutubeServiceTest {
     @Test
     @DisplayName("Get channel videos by Id")
     void searchChannelVideos() {
-        List<VideoSnippet> videos =videosService.searchChannelVideos("UCF3Ez6QwZwwr_E7RZGJMW0A",
+        List<VideoSnippet> videos = service.searchChannelVideos("UCF3Ez6QwZwwr_E7RZGJMW0A",
                 10, 10);
-        System.out.println(videos.size());
         System.out.println(videos);
-        System.out.println(videos.get(0).getComments().size());
         System.out.println(videos.get(0).getComments());
-        System.out.println(videos.get(0).getCaptions().size());
         System.out.println(videos.get(0).getCaptions());
 
     }
@@ -55,16 +44,52 @@ class YoutubeServiceTest {
     @Test
     @DisplayName("Get video comments")
     void getVideoComments(){
-        List<YoutubeComment> comments = commentService.getVideoComments("RWB-LKkedgA", 150);
+        List<YoutubeComment> comments = service.getVideoComments("RWB-LKkedgA", 100);
         System.out.println(comments);
-        System.out.println(comments.size());
     }
 
     @Test
     @DisplayName("Get a video captions")
     void getVideoCaptions(){
-        List<YoutubeCaption> captions = captionService.getVideoCaptions("RWB-LKkedgA");
+        List<YoutubeCaption> captions = service.getVideoCaptions("RWB-LKkedgA");
         System.out.println(captions);
+    }
+
+
+    @Test
+    @DisplayName("Get channel by fake Id")
+    void getChannelByIdFail() {
+        try{
+            YoutubeChannel channel = service.getChannelById("UCF3Ez6QwZwwr_&E7RZGJMW0A",10,10);
+            System.out.println(channel);
+            System.out.println(channel.getVideos());
+            System.out.println(channel.getVideos().get(0).getComments());
+            System.out.println(channel.getVideos().get(0).getCaptions());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Get comments from a video with comments disabled")
+    void getVideoWithCommentsDisabled(){
+
+        List<YoutubeComment> comments = service.getVideoComments("1q9j7vzv5Bg", 10);
+        System.out.println(comments);
+
+    }
+
+    @Test
+    @DisplayName("Get the captions from a video that doesn't exists")
+    void getNonExistentVideoCaptions(){
+        try{
+            List<YoutubeCaption> captions = service.getVideoCaptions("VideoInexistenTest");
+            System.out.println(captions);
+        } catch (ResourceNotFound e) {
+            System.out.println(e.getMessage());
+        }
+
+
     }
 
 }
