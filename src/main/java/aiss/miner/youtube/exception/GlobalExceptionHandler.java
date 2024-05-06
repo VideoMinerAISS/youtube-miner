@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
         String error = ex.getMessage();
         Map<String, String> res = new HashMap<>();
         res.put("errors", error);
-        return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(res, HttpStatus.TOO_MANY_REQUESTS);
     }
 
     @ExceptionHandler(NumberFormatException.class)
