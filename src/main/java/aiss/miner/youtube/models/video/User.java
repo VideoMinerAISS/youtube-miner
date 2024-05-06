@@ -7,9 +7,7 @@ import jakarta.persistence.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-/**
- * @author Juan C. Alonso
- */
+
 @Entity
 public class User {
 

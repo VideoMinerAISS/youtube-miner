@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author Juan C. Alonso
- */
+
 @Entity
 @Table(name = "YoutubeChannel")
 public class Channel {
