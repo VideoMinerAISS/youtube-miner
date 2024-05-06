@@ -1,6 +1,7 @@
 package aiss.miner.youtube.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,10 +45,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpClientErrorException.class)
     @ResponseBody
     public ResponseEntity<Map<String, String>> tooManyRequest(HttpClientErrorException ex){
+
+        HttpStatusCode status = ex.getStatusCode() == HttpStatus.FORBIDDEN ?
+                HttpStatus.TOO_MANY_REQUESTS :
+                ex.getStatusCode();
         String error = ex.getMessage();
         Map<String, String> res = new HashMap<>();
         res.put("errors", error);
-        return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(res, status);
     }
 
     @ExceptionHandler(NumberFormatException.class)

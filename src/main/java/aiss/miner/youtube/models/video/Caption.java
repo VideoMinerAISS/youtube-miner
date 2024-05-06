@@ -3,9 +3,7 @@ import aiss.miner.youtube.models.youtube.caption.YoutubeCaption;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-/**
- * @author Juan C. Alonso
- */
+
 @Entity
 @Table(name = "YoutubeCaption")
 public class Caption {

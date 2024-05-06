@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "5edbe52b-d085-4f65-bb34-b8adff744793",
+		"name": "Pruebas Youtube",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33739710"
+	},
+	"item": [
+		{
+			"name": "GetYoutubeMiner",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/channels/UCF3Ez6QwZwwr_E7RZGJMW0A",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"channels",
+						"UCF3Ez6QwZwwr_E7RZGJMW0A"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ChannelSinNada",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/channels/UCBiYLNY_Na8D554_M19NgYA",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"channels",
+						"UCBiYLNY_Na8D554_M19NgYA"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TestInvalidMaxParamenter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/channels/UCF3Ez6QwZwwr_E7RZGJMW0A?maxVideos=Av",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"channels",
+						"UCF3Ez6QwZwwr_E7RZGJMW0A"
+					],
+					"query": [
+						{
+							"key": "maxVideos",
+							"value": "Av"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "UCF3Ez6QwZwwr_E7RZGJMW0A"
+		}
+	]
+}
