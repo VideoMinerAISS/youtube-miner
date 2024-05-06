@@ -11,7 +11,6 @@ import java.util.Base64;
  * @author Juan C. Alonso
  */
 @Entity
-@Table(name = "VMUser")
 public class User {
 
     /*
@@ -20,10 +19,6 @@ public class User {
     * created by a User that already has a YoutubeComment in a previously stored Video. To avoid this exception, we automatically
     * assign an id to each new User with AutoIncrement.
      */
-    @Id
-    @JsonProperty("id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     @JsonProperty("name")
     private String name;
@@ -34,23 +29,16 @@ public class User {
     @JsonProperty("picture_link")
     private String picture_link;
 
-    public User(){}
+    public User() {
+    }
 
     public User(YoutubeComment youtubeComment){
         //TODO: Decodificar el id del canal
-        this.id = (long) youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelId().hashCode();
         this.name = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorDisplayName();
         this.picture_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorProfileImageUrl();
         this.user_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelUrl();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -79,8 +67,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", user_link='" + user_link + '\'' +
                 ", picture_link='" + picture_link + '\'' +
                 '}';
