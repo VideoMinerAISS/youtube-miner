@@ -7,16 +7,23 @@ import jakarta.persistence.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-
+/**
+ * @author Juan C. Alonso
+ */
 @Entity
+@Table(name = "VMUser")
 public class User {
 
     /*
-    * In order to avoid making the model unnecessarily complex, we establish a one-to-one relationship between YoutubeComment and
-    * User (instead of many-to-one). This causes an exception if we try to add a YoutubeComment to the DataBase that has been
-    * created by a User that already has a YoutubeComment in a previously stored Video. To avoid this exception, we automatically
-    * assign an id to each new User with AutoIncrement.
+     * In order to avoid making the model unnecessarily complex, we establish a one-to-one relationship between YoutubeComment and
+     * User (instead of many-to-one). This causes an exception if we try to add a YoutubeComment to the DataBase that has been
+     * created by a User that already has a YoutubeComment in a previously stored Video. To avoid this exception, we automatically
+     * assign an id to each new User with AutoIncrement.
      */
+    @Id
+    @JsonProperty("id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @JsonProperty("name")
     private String name;
@@ -37,6 +44,13 @@ public class User {
         this.user_link = youtubeComment.getCommentSnippet().getTopLevelComment().getSnippet().getAuthorChannelUrl();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -65,7 +79,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", user_link='" + user_link + '\'' +
                 ", picture_link='" + picture_link + '\'' +
                 '}';
