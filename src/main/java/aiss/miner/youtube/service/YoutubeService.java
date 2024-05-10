@@ -36,7 +36,6 @@ public class YoutubeService {
         String uri = String.format("https://www.googleapis.com/youtube/v3/channels?part=snippet&key=%s&id=%s",
                 token,id);
         HttpHeaders headers = new HttpHeaders();
-        //headers.set("Authorization", "Bearer " + token);
         HttpEntity<ChannelSearch> request = new HttpEntity<>(null, headers);
         ResponseEntity<ChannelSearch> channelResponse = restTemplate.exchange(uri, HttpMethod.GET,request,ChannelSearch.class);
 
@@ -104,7 +103,6 @@ public class YoutubeService {
                 .format("https://www.googleapis.com/youtube/v3/commentThreads?part=id,snippet&key=%s&videoId=%s&maxResults=%d",
                         token,videoId,Math.min(100,maxComments));
         HttpHeaders headers = new HttpHeaders();
-        //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CommentSearch> request = new HttpEntity<>(null, headers);
         try {
             ResponseEntity<CommentSearch> commentResponse = restTemplate
@@ -116,6 +114,7 @@ public class YoutubeService {
                 Integer commentRest = maxComments - 100;
                 if (commentRest > 0) comments.addAll(getNextPagesComm(videoId, commentSearch, commentRest, request));
             }
+            //Youtube devuelve 403 si tiene los comentarios desactivados.
         } catch (HttpClientErrorException.Forbidden | HttpClientErrorException.NotFound e){
             if(e.getStatusCode().isSameCodeAs(HttpStatus.NOT_FOUND)) throw new ResourceNotFound("Video");
 
@@ -147,7 +146,6 @@ public class YoutubeService {
                 .format("https://www.googleapis.com/youtube/v3/captions?part=id,snippet&key=%s&videoId=%s",
                         token, videoId);
         HttpHeaders headers = new HttpHeaders();
-        //headers.set("Authorization", "Bearer " + token);
         HttpEntity<CaptionSearch> request = new HttpEntity<>(null, headers);
 
         try {

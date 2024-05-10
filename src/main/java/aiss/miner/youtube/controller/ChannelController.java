@@ -57,8 +57,8 @@ public class ChannelController {
             )})
     @GetMapping("/{id}")
     public Channel findOne(@PathVariable String id,
-                           @RequestParam(value="maxVideos", defaultValue ="10") @Min(0) @Max(20) String maxVideos,
-                           @RequestParam(value="maxComments", defaultValue ="10") @Min(0) @Max(20) String maxComments)
+                           @RequestParam(value="maxVideos", defaultValue ="10") @Min(0)  String maxVideos,
+                           @RequestParam(value="maxComments", defaultValue ="10") @Min(0)  String maxComments)
     {
         return youtubeTranslatedService.getYoutubeChannel(id, Integer.parseInt(maxVideos), Integer.parseInt(maxComments));
     }
